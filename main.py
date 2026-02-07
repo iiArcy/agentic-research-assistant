@@ -27,6 +27,7 @@ def main():
         "current_task_index": 0,
         "sub_tasks": [],
         "final_report": "",
+        "past_context": "",
     })
 
     elapsed = time.time() - start

@@ -10,19 +10,35 @@ Available tools:
 algorithms, methods, benchmarks, recent research.
 - "web": Search the web via DuckDuckGo. Best for: tutorials, blog posts, \
 documentation, news, practical implementations, comparisons.
+- "github": Search GitHub repositories. Best for: open-source projects, \
+libraries, frameworks, code implementations, developer tools.
+- "wikipedia": Search Wikipedia for background knowledge. Best for: definitions, \
+concepts, historical context, overviews.
+- "semantic_scholar": Search academic papers across all venues. Best for: research \
+papers, citation-heavy analysis, cross-venue academic search.
+- "huggingface": Search HuggingFace Hub for models and datasets. Best for: finding \
+pretrained models, datasets, ML implementations.
+- "youtube": Search YouTube and extract video transcripts. Best for: conference talks, \
+tutorials, demonstrations, expert explanations.
 
+{past_context_block}\
 Respond with JSON only. No markdown fences. Format:
 {{
   "reasoning": "Brief explanation of your decomposition strategy",
   "sub_tasks": [
-    {{"query": "specific search query", "tool": "arxiv or web"}},
+    {{"query": "specific search query", "tool": "arxiv or web or github"}},
     ...
   ]
 }}
 
 Rules:
 - Each sub-task query should be specific and self-contained.
-- Use arxiv for academic/technical depth, web for practical/current info.
+- Use arxiv for academic/technical depth, web for practical/current info, \
+github for open-source projects and implementations, wikipedia for background \
+knowledge, semantic_scholar for cross-venue academic search, huggingface for \
+ML models and datasets, youtube for talks and tutorials.
+- If past research context is provided, avoid repeating the same searches \
+and focus on new angles or deeper dives.
 - Order sub-tasks from foundational to specific.
 - Keep to 2-5 sub-tasks maximum."""),
     ("human", "Research question: {query}"),

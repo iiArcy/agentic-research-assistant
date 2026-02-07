@@ -1,5 +1,21 @@
 from research_agent.state import AgentState
 from research_agent.tools.registry import get_tool
+from research_agent.tools.web_reader import read_webpage
+
+_SKIP_ENRICHMENT = {"github"}
+
+
+def _enrich_findings(results: list[dict]) -> None:
+    """Enrich top 2 findings with full web page content."""
+    for finding in results[:2]:
+        if finding.get("source_type") in _SKIP_ENRICHMENT:
+            continue
+        try:
+            content = read_webpage(finding["url"])
+            if content:
+                finding["snippet"] = content[:2000]
+        except Exception:
+            pass
 
 
 def researcher_node(state: AgentState) -> dict:
@@ -17,6 +33,12 @@ def researcher_node(state: AgentState) -> dict:
     try:
         tool_fn = get_tool(task["tool"])
         results = tool_fn(task["query"])
+
+        try:
+            _enrich_findings(results)
+        except Exception:
+            pass
+
         new_findings = results
 
         sub_tasks = [dict(t) for t in sub_tasks]
