@@ -15,6 +15,7 @@ def test_graph_end_to_end():
         "current_task_index": 0,
         "sub_tasks": [],
         "final_report": "",
+        "past_context": "",
     })
 
     assert result["final_report"]

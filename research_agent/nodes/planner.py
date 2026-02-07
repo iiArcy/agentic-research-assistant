@@ -10,7 +10,18 @@ def planner_node(state: AgentState) -> dict:
     """Decomposes the user's query into 2-5 actionable sub-tasks."""
     llm = get_llm()
     chain = PLANNER_PROMPT | llm | JsonOutputParser()
-    result = chain.invoke({"query": state["original_query"]})
+    past_context = state.get("past_context", "")
+    if past_context:
+        past_context_block = (
+            f"Past research context (from previous sessions):\n{past_context}\n\n"
+        )
+    else:
+        past_context_block = ""
+
+    result = chain.invoke({
+        "query": state["original_query"],
+        "past_context_block": past_context_block,
+    })
 
     sub_tasks: list[SubTask] = []
     for i, task in enumerate(result["sub_tasks"][:settings.max_sub_tasks]):
